@@ -28,8 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -38,6 +38,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import android.R;
 
 
 /**
@@ -180,7 +182,7 @@ public class Notification extends CordovaPlugin {
             public void run() {
 
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                dlg.setMessage(message);
+                if (!message.isEmpty()) dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
                 dlg.setPositiveButton(buttonLabel,
@@ -220,7 +222,7 @@ public class Notification extends CordovaPlugin {
         Runnable runnable = new Runnable() {
             public void run() {
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                dlg.setMessage(message);
+                if (!message.isEmpty()) dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
 
@@ -242,7 +244,7 @@ public class Notification extends CordovaPlugin {
                 // Second button
                 if (buttonLabels.length() > 1) {
                     try {
-                        dlg.setNeutralButton(buttonLabels.getString(1),
+                        dlg.setPositiveButton(buttonLabels.getString(1),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -257,7 +259,7 @@ public class Notification extends CordovaPlugin {
                 // Third button
                 if (buttonLabels.length() > 2) {
                     try {
-                        dlg.setPositiveButton(buttonLabels.getString(2),
+                        dlg.setNeutralButton(buttonLabels.getString(2),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                   dialog.dismiss();
@@ -310,7 +312,7 @@ public class Notification extends CordovaPlugin {
                 promptInput.setTextColor(promptInputTextColor);
                 promptInput.setText(defaultText);
                 AlertDialog.Builder dlg = createDialog(cordova); // new AlertDialog.Builder(cordova.getActivity(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                dlg.setMessage(message);
+                if (!message.isEmpty()) dlg.setMessage(message);
                 dlg.setTitle(title);
                 dlg.setCancelable(true);
                 
@@ -342,7 +344,7 @@ public class Notification extends CordovaPlugin {
                 // Second button
                 if (buttonLabels.length() > 1) {
                     try {
-                        dlg.setNeutralButton(buttonLabels.getString(1),
+                        dlg.setPositiveButton(buttonLabels.getString(1),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -363,7 +365,7 @@ public class Notification extends CordovaPlugin {
                 // Third button
                 if (buttonLabels.length() > 2) {
                     try {
-                        dlg.setPositiveButton(buttonLabels.getString(2),
+                        dlg.setNeutralButton(buttonLabels.getString(2),
                             new AlertDialog.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
@@ -498,7 +500,7 @@ public class Notification extends CordovaPlugin {
     private AlertDialog.Builder createDialog(CordovaInterface cordova) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            int id = androidStyleName == null || androidStyleName.isEmpty() ? AlertDialog.THEME_DEVICE_DEFAULT_LIGHT : cordova.getActivity().getResources().getIdentifier(androidStyleName, "style", cordova.getActivity().getPackageName());
+            int id = androidStyleName == null || androidStyleName.isEmpty() ? R.style.Theme_DeviceDefault_Light_Dialog_Alert : cordova.getActivity().getResources().getIdentifier(androidStyleName, "style", cordova.getActivity().getPackageName());
 
             return new AlertDialog.Builder(cordova.getActivity(), id);
         } else {
@@ -510,7 +512,7 @@ public class Notification extends CordovaPlugin {
     private ProgressDialog createProgressDialog(CordovaInterface cordova) {
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            int id = androidStyleName == null || androidStyleName.isEmpty() ? AlertDialog.THEME_DEVICE_DEFAULT_LIGHT : cordova.getActivity().getResources().getIdentifier(androidStyleName, "style", cordova.getActivity().getPackageName());
+            int id = androidStyleName == null || androidStyleName.isEmpty() ? R.style.Theme_DeviceDefault_Light_Dialog_Alert : cordova.getActivity().getResources().getIdentifier(androidStyleName, "style", cordova.getActivity().getPackageName());
 
             return new ProgressDialog(cordova.getActivity(), id);
         } else {
